@@ -1,9 +1,12 @@
+#include <GL/gl.h>
 #include "Cube.h"
 
-Cube::Cube()
+Cube::Cube( QOpenGLShaderProgram *program, int vertexAttr, int colorAttr ) :
+    m_program( program ),
+    m_vertexAttr( vertexAttr ),
+    m_colorAttr( colorAttr )
 {
-//    initVertices();
-//    initColors();
+
 }
 
 void Cube::initVertices()
@@ -32,7 +35,7 @@ void Cube::initColors( int numOfVertices )
     colors.clear();
     colors.resize( numOfVertices * 3 );
 
-    for ( unsigned int i = 0, j = 0; i < numOfVertices; ++i )
+    for ( unsigned int i = 0, j = 0; i < numOfVertices / 3; ++i )
     {
         colors[j++] = 1.0f;
         colors[j++] = 0.0f;
@@ -46,21 +49,18 @@ void Cube::initColors( int numOfVertices )
         colors[j++] = 0.0f;
         colors[j++] = 1.0f;
     }
+}
 
-//    colors.resize( 9 );
+void Cube::draw()
+{
+    m_program->setAttributeArray( m_vertexAttr, vertices.data(), 3 );
+    m_program->setAttributeArray( m_colorAttr, colors.data(), 3 );
 
-//    // 0
-//    colors[0] = 1.0f;
-//    colors[1] = 0.0f;
-//    colors[2] = 0.0f;
+    m_program->enableAttributeArray( m_vertexAttr );
+    m_program->enableAttributeArray( m_colorAttr );
 
-//    // 1
-//    colors[3] = 0.0f;
-//    colors[4] = 1.0f;
-//    colors[5] = 0.0f;
+    glDrawArrays( GL_TRIANGLES, 0, vertices.size() / 3 );
 
-//    // 0
-//    colors[6] = 0.0f;
-//    colors[7] = 0.0f;
-//    colors[8] = 1.0f;
+    m_program->disableAttributeArray( m_vertexAttr );
+    m_program->disableAttributeArray( m_colorAttr );
 }
