@@ -80,9 +80,9 @@ void Scene::resizeGL( int w, int h )
 
 void Scene::wheelEvent( QWheelEvent *event )
 {
-    if ( event->delta() > 0 )
+    if ( event->angleDelta().y() > 0 )
         scalePlus();
-    else if ( event->delta() < 0 )
+    else if ( event->angleDelta().y() < 0 )
         scaleMinus();
 
     update();
@@ -105,8 +105,8 @@ void Scene::mousePressEvent( QMouseEvent *event )
 
 void Scene::mouseMoveEvent( QMouseEvent *event )
 {
-    m_xRot += 180 / m_scale * ( float ) ( event->y() / m_lastPos.y() ) / height();
-    m_zRot += 180 / m_scale * ( float ) ( event->x() / m_lastPos.x() ) / width();
+    m_xRot += 180 / m_scale * ( float ) ( event->position().y() / m_lastPos.y() ) / height();
+    m_zRot += 180 / m_scale * ( float ) ( event->position().x() / m_lastPos.x() ) / width();
 
     m_lastPos = event->pos();
 

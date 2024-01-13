@@ -1,4 +1,8 @@
+#if defined(__APPLE__)
+#include <OpenGL/gl.h>
+#else
 #include <GL/gl.h>
+#endif
 #include "Cube.h"
 
 Cube::Cube( QOpenGLShaderProgram *program, int vertexAttr, int colorAttr ) :
